@@ -99,6 +99,7 @@ router.beforeEach(async (to, from, next) => {
 			NProgress.done();
 		} else if (token && to.path === '/login') {
 			next('/home');
+			// next('/');
 			NProgress.done();
 		} else {
 			const storesRoutesList = useRoutesList(pinia);

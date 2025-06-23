@@ -49,3 +49,10 @@ export function uploadImage(data: object): Promise<{
     }    
   })
 }
+export function uploadcsv(data:any) {
+  return request.post('/api/v1/store_payment/products/import', data,{
+    headers:{
+      "Content-Type":"multipart/form-data"
+    }
+  })
+}

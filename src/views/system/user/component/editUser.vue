@@ -18,6 +18,11 @@
 							<el-input v-model="ruleForm.nickName" placeholder="请输入用户昵称" clearable></el-input>
 						</el-form-item>
 					</el-col>
+          <!-- 
+            TODO: Feature 
+            令牌内省，如果用户角色为 店铺运维，给默认值，不允许修改。
+            但需要注意， 前端显示的是 角色名称，但是接口接收的是 角色ID.
+             -->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" >
 						<el-form-item label="关联角色" prop="roleIds">
               <el-cascader
@@ -27,6 +32,7 @@
                   clearable
                   class="w100"
                   v-model="ruleForm.roleIds"
+                  :disabled="isStoreOperator()"
               >
                 <template #default="{ node, data }">
                   <span>{{ data.name }}</span>
@@ -44,6 +50,7 @@
 								clearable
 								class="w100"
 								v-model="ruleForm.deptId"
+                :disabled="isStoreOperator()"
 							>
 								<template #default="{ node, data }">
 									<span>{{ data.deptName }}</span>
@@ -90,9 +97,13 @@
 							<el-switch v-model="ruleForm.status" inline-prompt :active-value="1" :inactive-value="0" active-text="启" inactive-text="禁"></el-switch>
 						</el-form-item>
 					</el-col>
+          <!-- 
+            TODO: Feature
+            令牌内省，如果用户角色为 店铺运维，给默认值（后台管理员），不允许修改。
+          -->
           <el-col :span="24">
             <el-form-item label="用户类型">
-              <el-radio-group v-model="ruleForm.isAdmin">
+              <el-radio-group v-model="ruleForm.isAdmin" :disabled="isStoreOperator()">
                 <el-radio
                     :value="1"
                 >后台管理员</el-radio>
@@ -120,9 +131,10 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, toRefs, onMounted, defineComponent, ref, unref, getCurrentInstance} from 'vue';
+import {reactive, toRefs, onMounted, defineComponent, ref, unref, getCurrentInstance, computed} from 'vue';
 import {getParams, addUser, editUser, getEditUser} from "/@/api/system/user";
 import {ElMessage} from "element-plus";
+import {Session} from "/@/utils/storage";
 
 defineOptions({ name: "systemEditUser"})
 const props = defineProps({
@@ -155,7 +167,7 @@ const state = reactive({
     remark: '',
     postIds: [],
     roleIds: [],
-    isAdmin:0,
+    isAdmin:1,
   },
   //表单校验
   rules: {
@@ -188,7 +200,46 @@ const state = reactive({
     ]
   }
 });
-const { ruleForm, isShowDialog, rules}=toRefs(state)
+const { ruleForm, isShowDialog, rules } = toRefs(state)
+
+// 获取当前登录用户信息
+let currentUserRoleInfo = Session.get('roleInfo') || {};
+let currentUserInfo = Session.get('userInfo') || {};
+// 判断当前用户是否为店铺运维角色
+function isStoreOperator() {
+  const userRoles = currentUserRoleInfo.user_roles || [];
+  console.log(userRoles.includes('店铺运维'))
+  return userRoles.includes('店铺运维');
+}
+
+function isSuperAdmin() {
+  const userRoles = currentUserRoleInfo.user_roles || [];
+  return userRoles.includes('超级管理员');
+}
+
+
+// 获取店铺租户角色ID
+function getStoreTenantRoleId() {
+  console.log("roleList", roleList.value);
+  if (!roleList.value.length) return null;
+  
+  // 递归查找店铺租户角色
+  const findStoreTenantRole = (roles) => {
+    for (const role of roles) {
+      if (role.name === '店铺租户') {
+        return role.id;
+      }
+      if (role.children && role.children.length > 0) {
+        const found = findStoreTenantRole(role.children);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  
+  return findStoreTenantRole(roleList.value);
+}
+
 // 打开弹窗
 const openDialog = (row?:any) => {
   resetForm()
@@ -211,6 +262,12 @@ const openDialog = (row?:any) => {
         isAdmin:user.isAdmin,
       };
     })
+  } else {
+    state.ruleForm.isAdmin = 1;
+    if (isStoreOperator() && getStoreTenantRoleId()) {
+      state.ruleForm.deptId = currentUserInfo.deptId;
+      state.ruleForm.roleIds = [ getStoreTenantRoleId() ];
+    }
   }
   state.isShowDialog = true;
 };

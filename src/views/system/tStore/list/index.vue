@@ -27,7 +27,7 @@
                 <el-button
                   type="primary"
                   @click="handleAdd"
-                  v-auth="'api/v1/system/tStore/add'"
+                  v-if="!(roleInfo.user_roles.findIndex(e=>e==='店铺租户')>=0)"
                 ><el-icon><ele-Plus /></el-icon>新增</el-button>
               </el-col>
             </el-row>
@@ -50,7 +50,10 @@
              />
           <el-table-column label="门店状态" align="center" prop="status"
             min-width="50px"            
-             />          
+             /> 
+          <el-table-column label="设备注册码" align="center" prop="register_code"
+            min-width="50px"            
+             />                            
           <el-table-column label="创建时间" align="center" prop="created_at"
             min-width="50px"            
             >
@@ -64,25 +67,21 @@
                 type="primary"
                 link
                 @click="handleDetail(scope.row)"
-                v-auth="'api/v1/system/tStore/get'"
               ><el-icon><ele-View /></el-icon>门店详情</el-button>
               <el-button
                 type="primary"
                 link
                 @click="handleUpdate(scope.row)"
-                v-auth="'api/v1/system/tStore/edit'"
               ><el-icon><ele-EditPen /></el-icon>编辑门店</el-button>
               <el-button
                 type="primary"
                 link
                 @click="handleProductItemList(scope.row)"
-                v-auth="'api/v1/system/tProduct/get'"
               ><el-icon><ele-EditPen /></el-icon>商品管理</el-button>
               <el-button
                 type="primary"
                 link
                 @click="handleProductItemListOrder(scope.row)"
-                v-auth="'api/v1/system/tOrder/get'"
               ><el-icon><ele-EditPen /></el-icon>订单管理</el-button>              
             </template>
           </el-table-column>
@@ -120,6 +119,7 @@ import ApiV1SystemTStoreEdit from "/@/views/system/tStore/list/component/edit.vu
 import ApiV1SystemTStoreDetail from "/@/views/system/tStore/list/component/detail.vue"
 import ApiV1SystemTStoreProductItems from "/@/views/system/tStore/list/component/itemList.vue"
 import OrderDetail from "/@/views/system/tStore/list/component/orderDetail.vue"
+import { Session,Local } from '/@/utils/storage';
 defineOptions({ name: "apiV1SystemTStoreList"})
 const {proxy} = <any>getCurrentInstance()
 const loading = ref(false)
@@ -142,6 +142,7 @@ const word = computed(()=>{
 const {    
 } = proxy.useDict(    
 )
+const roleInfo = Session.get('roleInfo')||{user_roles:[]}
 const state = reactive<TStoreTableDataState>({
     ids:[],
     tableData: {
@@ -163,7 +164,8 @@ const state = reactive<TStoreTableDataState>({
             customer_service_wechat: undefined,            
             merchant_no: undefined,            
             term_no: undefined,            
-            status: undefined,            
+            status: undefined,  
+            register_code: undefined,          
             created_at: undefined,            
         },
     },

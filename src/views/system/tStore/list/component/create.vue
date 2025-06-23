@@ -223,7 +223,7 @@ const fetchStoreList = async () => {
 
 const fetchUserList = async () => {
   try {
-    const response = await getUsersById(13)
+    const response = await getUsersByRoleName("店铺租户")
     console.log('获取用户列表成功:', response)
     userList.value = response.data.userList;
   } catch (error) {
@@ -259,6 +259,7 @@ import {
 } from "/@/api/system/tStore";
 import { 
   getUsersById,
+  getUsersByRoleName,
 } from "/@/api/system/user"
 import {
   TStoreInfoData,

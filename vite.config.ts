@@ -15,9 +15,9 @@ const alias: Record<string, string> = {
 
 const viteConfig = defineConfig((mode: ConfigEnv) => {
 	const env = loadEnv(mode.mode, process.cwd());
-	console.log('env', env,mode.mode);
+	// console.log('env', env, mode.mode);
 	return {
-		plugins: [vue(), viteCompression({disable:true})],
+		plugins: [vue(), viteCompression({ disable: true })],
 		root: process.cwd(),
 		resolve: { alias },
 		base: mode.command === 'serve' ? './' : env.VITE_PUBLIC_PATH,
@@ -34,6 +34,15 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/gitee/, ''),
 				},
+				"/api": {
+					target: 'http://60.205.58.44:80',
+					changeOrigin: true,
+					rewrite: (path) => {
+						console.log(path)
+						// return ""
+						return path.replace(/^\/api/, '/api')
+					},
+				}
 			},
 		},
 		build: {
@@ -53,7 +62,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 				...(JSON.parse(env.VITE_OPEN_CDN) ? { external: buildConfig.external } : {}),
 			},
 		},
-		css: { preprocessorOptions: { css: { charset: false },scss:{api:"modern-compiler"} } },
+		css: { preprocessorOptions: { css: { charset: false }, scss: { api: "modern-compiler" } } },
 		define: {
 			__VUE_I18N_LEGACY_API__: JSON.stringify(false),
 			__VUE_I18N_FULL_INSTALL__: JSON.stringify(false),

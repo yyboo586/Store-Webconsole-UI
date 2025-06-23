@@ -9,7 +9,8 @@ import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { getUserMenus } from '/@/api/system/menu/index';
-
+import { getRole } from "/@/api/login";
+import Cookies from 'js-cookie';
 
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
@@ -126,6 +127,10 @@ export async function refreshBackEndControlRoutes() {
 	})
 	await useUserInfo().setUserInfos()
 	await useUserInfo().setPermissions()
+	const token = Cookies.get('token');
+	await getRole(token).then((res) => {
+      Session.set('roleInfo', res.data)
+    })
 }
 
 /**

@@ -11,7 +11,8 @@ export interface TStoreTableColumns {
     customer_service_wechat:string;  // 客服微信    
     merchant_no:string;  // 拉卡拉分配的商户号    
     term_no:string;  // 拉卡拉分配的业务终端号 
-    status:string;  // 门店状态: 1=正常营业、2=暂停营业、3=店铺倒闭    
+    status: string;  // 门店状态: 1=正常营业、2=暂停营业、3=店铺倒闭    
+    register_code: string;
     created_at: string;  // 门店创建时间    
     updated_at: string
 }
@@ -30,7 +31,8 @@ export interface TStoreInfoData {
     customer_service_wechat:string|undefined; // 客服微信    
     merchant_no:string|undefined; // 拉卡拉分配的商户号    
     term_no:string|undefined; // 拉卡拉分配的业务终端号
-    status:string|undefined; // 门店状态: 1=正常营业、2=暂停营业、3=店铺倒闭    
+    status: string | undefined; // 门店状态: 1=正常营业、2=暂停营业、3=店铺倒闭    
+    register_code: string | undefined;
     created_at:string|undefined; // 门店创建时间    
     updated_at: string | undefined; // 门店信息更新时间    
 }
@@ -57,7 +59,8 @@ export interface TStoreTableDataState {
             customer_service_wechat: string|undefined;            
             merchant_no: string|undefined;            
             term_no: string|undefined;            
-            status: string|undefined;            
+            status: string | undefined;    
+            register_code: string|undefined;
             created_at: string|undefined;            
         };
     };

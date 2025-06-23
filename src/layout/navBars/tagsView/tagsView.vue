@@ -528,6 +528,7 @@ defineOptions({ name: "layoutTagsView"})
       proxy.mittBus.on('openShareTagsView', () => {
         if (getThemeConfig.value.isShareTagsView) {
           router.push('/home');
+          // router.push("/")
           state.tagsViewList = [];
           state.tagsViewRoutesList.map((v: any) => {
             if (v.meta.isAffix && !v.meta.isHide) {

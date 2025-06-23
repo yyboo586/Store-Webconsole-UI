@@ -45,6 +45,9 @@
         <el-form-item label="门店状态" prop="status">
           <el-input v-model="formData.status" readonly/>
         </el-form-item>
+        <el-form-item label="设备注册码" prop="register_code">
+          <el-input v-model="formData.register_code" readonly/>
+        </el-form-item>        
       </el-form>
     </el-drawer>
   </div>
@@ -84,7 +87,8 @@
       customer_service_wechat: undefined,      
       merchant_no: undefined,      
       term_no: undefined,      
-      status: undefined ,      
+      status: undefined,
+      register_code: undefined,      
       created_at: undefined,      
       updated_at: undefined,      
     },
@@ -128,7 +132,8 @@
       customer_service_wechat: undefined,      
       merchant_no: undefined,      
       term_no: undefined,      
-      status: undefined ,      
+      status: undefined,
+      register_code: undefined,      
       created_at: undefined,      
       updated_at: undefined,      
     }

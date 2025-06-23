@@ -98,10 +98,10 @@ import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { Session } from '/@/utils/storage';
+import { Session,Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
-import {captcha, login} from "/@/api/login";
+import {captcha, login,getRole} from "/@/api/login";
 import GoCaptchaBtn from "/@/components/goCaptcha/GoCaptchaBtn.vue";
 defineOptions({ name: "loginAccount"})
 const { t } = useI18n();
@@ -161,12 +161,15 @@ const onSignIn = async () => {
     if(valid){
       state.loading.signIn = true;
       login(state.ruleForm).then(async (res:any)=>{
-        const userInfo = res.data.userInfo
+        // console.log("登录成功",res)
+        const roleRes = await getRole(res.data.token)
+        const userInfo = {...res.data.userInfo}      
         userInfo.avatar = proxy.getUpFileUrl(userInfo.avatar)
         // 存储 token 到浏览器缓存
         Session.set('token', res.data.token);
         // 存储用户信息到浏览器缓存
         Session.set('userInfo', userInfo);
+        Session.set('roleInfo', roleRes.data)
         // 设置用户菜单
         Session.set('userMenu',res.data.menuList)
         // 设置按钮权限

@@ -13,7 +13,7 @@ export function getUserByIds(query:Object) {
 
 export function getUserList(query:Object) {
     return request({
-        url: '/api/v1/system/user/list',
+        url: '/api/v1/system/user/list2',
         method: 'get',
         params:query
     })
@@ -24,6 +24,15 @@ export function getUsersById(roleId:number) {
         url: '/api/v1/system/user/getByRoleId',
         method: 'get',
         params:{roleId}
+    })
+}
+
+
+export function getUsersByRoleName(roleName:string) {
+    return request({
+        url: '/api/v1/system/user/getByRoleName',
+        method: 'get',
+        params:{roleName}
     })
 }
 
