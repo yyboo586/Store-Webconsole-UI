@@ -20,7 +20,7 @@
             </el-tabs>
           </div>
           <Scan v-if="isScan" />
-          <div class="login-content-main-sacn" @click="isScan = !isScan">
+          <div v-if="false" class="login-content-main-sacn" @click="isScan = !isScan">
             <i class="iconfont" :class="isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
             <div class="login-content-main-sacn-delta"></div>
           </div>
