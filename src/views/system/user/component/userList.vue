@@ -2,7 +2,8 @@
 	<div class="system-user-list-container">
     <el-table :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column type="index" label="序号" width="60" />
+      <!-- <el-table-column type="index" label="序号" width="60" /> -->
+      <el-table-column prop="id" label="用户ID" width="60" />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
       <el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
       <el-table-column prop="dept.deptName" label="部门" show-overflow-tooltip></el-table-column>

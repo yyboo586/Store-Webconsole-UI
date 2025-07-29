@@ -48,6 +48,9 @@
           <el-table-column label="店主姓名" align="center" prop="owner_name"
             min-width="50px"            
              />
+          <el-table-column label="店主昵称" align="center" prop="owner_nickname"
+            min-width="50px"            
+             />
           <el-table-column label="门店状态" align="center" prop="status"
             min-width="50px"            
              /> 
@@ -159,6 +162,7 @@ const state = reactive<TStoreTableDataState>({
             owner_id: undefined,            
             owner_name: undefined,            
             owner_phone: undefined,            
+            owner_nickname: undefined,
             customer_service_name: undefined,            
             customer_service_phone: undefined,            
             customer_service_wechat: undefined,            

@@ -25,6 +25,7 @@ export interface TStoreInfoData {
     address:string|undefined; // 门店地址(如"北京市海淀区中关村大街1号")    
     owner_id:string|undefined; // 门店所有者标识    
     owner_name:string|undefined; // 门店所有者姓名    
+    owner_nickname:string|undefined; 
     owner_phone:string|undefined; // 门店所有者电话    
     customer_service_name:string|undefined; // 客服姓名    
     customer_service_phone:string|undefined; // 客服联系电话    
@@ -32,7 +33,7 @@ export interface TStoreInfoData {
     merchant_no:string|undefined; // 拉卡拉分配的商户号    
     term_no:string|undefined; // 拉卡拉分配的业务终端号
     status: string | undefined; // 门店状态: 1=正常营业、2=暂停营业、3=店铺倒闭    
-    register_code: string | undefined;
+    // register_code: string | undefined;
     created_at:string|undefined; // 门店创建时间    
     updated_at: string | undefined; // 门店信息更新时间    
 }
@@ -52,7 +53,8 @@ export interface TStoreTableDataState {
             name: string|undefined;            
             address: string|undefined;            
             owner_id: string|undefined;            
-            owner_name: string|undefined;            
+            owner_name: string|undefined;       
+            owner_nickname: string|undefined;    
             owner_phone: string|undefined;            
             customer_service_name: string|undefined;            
             customer_service_phone: string|undefined;            

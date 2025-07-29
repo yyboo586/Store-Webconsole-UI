@@ -46,6 +46,9 @@
         </el-form-item>        
         <el-form-item label="商户姓名" prop="owner_name">
           <el-input v-model="formData.owner_name" disabled placeholder="自动填充" />
+        </el-form-item>   
+        <el-form-item label="商户昵称" prop="owner_nickname">
+          <el-input v-model="formData.owner_nickname" disabled placeholder="自动填充" />
         </el-form-item>        
         <el-form-item label="商户电话" prop="owner_phone">
           <el-input v-model="formData.owner_phone" disabled placeholder="自动填充" />
@@ -247,6 +250,7 @@ const handleUserChange = (id: number) => {
     state.formData.owner_id = selectedUser.id
     state.formData.owner_name = selectedUser.userName
     state.formData.owner_phone = selectedUser.mobile
+    state.formData.owner_nickname = selectedUser.userNickname
   }
 }
 
@@ -265,6 +269,7 @@ import {
   TStoreInfoData,
   TStoreCreateState
 } from "/@/views/system/tStore/list/component/model"
+import { stat } from 'fs'
 defineOptions({ name: "ApiV1SystemTStoreCreate"})
 const emit = defineEmits(['tStoreList'])
 const {proxy} = <any>getCurrentInstance()
@@ -280,6 +285,7 @@ const state = reactive<TStoreCreateState>({
     address: undefined,    
     owner_id: undefined,    
     owner_name: undefined,    
+    owner_nickname: undefined,    
     owner_phone: undefined,    
     customer_service_name: undefined,    
     customer_service_phone: undefined,    
@@ -359,6 +365,7 @@ const resetForm = ()=>{
     address: undefined,    
     owner_id: undefined,    
     owner_name: undefined,    
+    owner_nickname:undefined,
     owner_phone: undefined,    
     customer_service_name: undefined,    
     customer_service_phone: undefined,    
