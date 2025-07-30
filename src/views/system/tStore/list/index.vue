@@ -45,6 +45,9 @@
           <el-table-column label="门店地址" align="center" prop="address"
             min-width="50px"            
              />
+              <el-table-column label="账户ID" align="center" prop="owner_id"
+            min-width="50px"            
+             />
           <el-table-column label="店主姓名" align="center" prop="owner_name"
             min-width="50px"            
              />
