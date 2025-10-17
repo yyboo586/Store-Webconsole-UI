@@ -43,7 +43,7 @@ export function uploadImage(data: object): Promise<{
   message: string;
   success: boolean;
 }> {
-  return request.post('https://smapi.test.7games.store/merchant/image/upload',data,{
+  return request.post('https://smapi-test.bjbjkj.com/merchant/image/upload',data,{
     headers: {
       'Content-Type': 'multipart/form-data'
     }    
